@@ -3,7 +3,7 @@ import useBlockNumber from "./useBlockNumber";
 import STAKE_ABI from "../contracts/abi/PolkaBridgeStaking.json";
 import { STAKE_ADDRESSES } from "../constants/index";
 import useActiveWeb3React from "./useActiveWeb3React";
-import { readContracts } from "wagmi";
+import { readContracts } from "@wagmi/core";
 
 export function useUserStakedInfo(poolId) {
   const { chainId, account } = useActiveWeb3React();

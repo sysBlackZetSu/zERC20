@@ -185,83 +185,6 @@ const Home = ({ account: { error, currentChain } }) => {
     });
   }, [chainId]);
 
-  // useEffect(() => {
-  //   if (!chainId || !active) {
-  //     // check if there is existing cached selected network other wise select ethereum chain by default
-
-  //     const cachedChain = localStorage.getItem("cachedChain");
-  //     if (!cachedChain) {
-  //       localStorage.setItem("cachedChain", 1);
-  //     }
-
-  //     const _network = getCurrentNetworkName(cachedChain || 1);
-  //     console.log("setting cached chain to select chain id ", cachedChain || 1);
-
-  //     store.dispatch({
-  //       type: CHANGE_NETWORK,
-  //       payload: { network: _network, chain: cachedChain || 1 },
-  //     });
-
-  //     return;
-  //   }
-
-  //   const _network = getCurrentNetworkName(chainId);
-
-  //   store.dispatch({
-  //     type: CONNECT_WALLET,
-  //     payload: account,
-  //   });
-  //   store.dispatch({
-  //     type: CHANGE_NETWORK,
-  //     payload: { network: _network, chain: chainId },
-  //   });
-  // }, [chainId, active, account]);
-
-  // useEffect(() => {
-  //   async function onNetworkChangeUpdate() {
-  //     if (typeof window.web3 !== "undefined") {
-  //       window.ethereum.on("accountsChanged", async (accounts) => {
-  //         if (accounts.length === 0) {
-  //           localStorage.connected = "none";
-  //           return;
-  //         }
-  //       });
-
-  //       window.ethereum.on("disconnect", (error) => {
-  //         console.log("disconnected ", error);
-  //         localStorage.connected = "none";
-  //       });
-  //     }
-  //   }
-  //   onNetworkChangeUpdate();
-  // }, []);
-
-  // useEffect(() => {
-  //   if (!currentChain) {
-  //     return;
-  //   }
-  //   console.log("chain changed ", currentChain);
-  //   const cachedChain = localStorage.getItem("cachedChain");
-
-  //   if (cachedChain && currentChain?.toString() !== cachedChain) {
-  //     localStorage.setItem("cachedChain", currentChain?.toString());
-
-  //     window.location.reload();
-  //   } else if (!cachedChain) {
-  //     localStorage.setItem("cachedChain", currentChain?.toString());
-  //   }
-  // }, [currentChain]);
-
-  // useEffect(() => {
-  //   if (JSON.stringify(error).includes("-32000")) {
-  //     alert(
-  //       `You don't have enough balance to pay gas fee for the transaction!`
-  //     );
-  //   } else if (JSON.stringify(error).includes("User rejected transaction")) {
-  //     alert(`Transaction cancelled`);
-  //   }
-  // }, [JSON.stringify(error)]);
-
   const supportedStakingPools = useMemo(() => {
     if (!currentChain) {
       return [];
@@ -276,11 +199,11 @@ const Home = ({ account: { error, currentChain } }) => {
     }
     return Object.keys(supportedStaking).includes(currentChain?.toString())
       ? supportedStaking?.[currentChain]?.map((item) => {
-          return {
-            poolId: POOL_ID_MAPPINGS?.[currentChain]?.[item],
-            poolToken: item,
-          };
-        })
+        return {
+          poolId: POOL_ID_MAPPINGS?.[currentChain]?.[item],
+          poolToken: item,
+        };
+      })
       : [];
   }, [currentChain, isActive]);
 
@@ -288,19 +211,19 @@ const Home = ({ account: { error, currentChain } }) => {
     () =>
       Object.keys(unsupportedStaking).includes(currentChain?.toString())
         ? unsupportedStaking?.[currentChain]?.map((item) => {
-            return {
-              poolId: POOL_ID_MAPPINGS?.[currentChain]?.[item],
-              poolToken: item,
-            };
-          })
+          return {
+            poolId: POOL_ID_MAPPINGS?.[currentChain]?.[item],
+            poolToken: item,
+          };
+        })
         : !currentChain
-        ? unsupportedStaking[1]?.map((item) => {
+          ? unsupportedStaking[1]?.map((item) => {
             return {
               poolId: POOL_ID_MAPPINGS?.[currentChain]?.[item],
               poolToken: item,
             };
           })
-        : [],
+          : [],
     [currentChain]
   );
 
@@ -323,15 +246,6 @@ const Home = ({ account: { error, currentChain } }) => {
               </div>
             </div>
           </div>
-
-          {/* {!active && (
-            <div className={classes.cardsContainer2}>
-              <Wallet />
-              <p className={classes.subheading}>
-                Connect your Wallet to stake tokens
-              </p>
-            </div>
-          )} */}
           {
             <div className="mt-3">
               {supportedStakingPools.length === 0 && (
